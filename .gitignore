@@ -40,3 +40,6 @@ next-env.d.ts
 /.sites-runtime/
 /outputs/
 /work/
+
+# Generated from the pinned Wrangler runtime
+/types/cloudflare.d.ts

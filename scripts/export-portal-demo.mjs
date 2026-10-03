@@ -1,0 +1,27 @@
+import { mkdir, readFile, writeFile, copyFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import worker from "../dist/server/index.js";
+
+const destination = resolve(process.argv[2] || "../st8dom-site");
+const response = await worker.fetch(new Request("https://example.com/", { headers: { accept: "text/html" } }), { ASSETS: { fetch: async () => new Response("Not found", { status: 404 }) } }, { waitUntil() {}, passThroughOnException() {} });
+if (response.status !== 200) throw new Error("Cannot export the production page");
+let html = await response.text();
+const cssHref = html.match(/<link rel="stylesheet" href="([^"]+)"/)?.[1];
+if (!cssHref) throw new Error("Production stylesheet is missing");
+const css = await readFile(resolve("dist/client", cssHref.slice(1)), "utf8");
+html = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "");
+html = html.replace(/<link\b[^>]*>/g, tag => /rel="(stylesheet|modulepreload|preload)"/.test(tag) ? "" : tag);
+html = html.replace("</head>", '<link rel="stylesheet" href="/static/demos/psychologist/style.css"><link rel="icon" href="/static/demos/psychologist/favicon.svg"></head>');
+html = html.replaceAll("/images/psychologist-landing-cover.webp", "/static/demos/psychologist/cover.webp");
+html = html.replaceAll("https://psychologist-landing.ketwolsheb.chatgpt.site/images/psychologist-landing-cover.webp", "https://st8dom.ru/static/demos/psychologist/cover.webp");
+html = html.replace(/<div class="inquiry-panel" data-inquiry-panel="true">[\s\S]*?<\/div>/, '<div class="inquiry-panel"><h3>Обсудить адаптацию</h3><p>Заявка на разработку сайта. Не указывайте сведения о здоровье.</p>{{ render_inquiry_form(form) }}</div>');
+html = '{% from "macros/form.html" import render_inquiry_form %}\n' + html;
+html = html.replace('<meta property="og:title" content="Анна Миронова — психолог-консультант"/>', '<meta property="og:title" content="Лендинг психолога — демонстрация ДИС"/>');
+html = html.replace('<title>Анна Миронова — психолог в Москве и онлайн</title>', '<title>Лендинг психолога — демонстрация | ДИС</title>');
+await mkdir(resolve(destination, "templates/demos"), { recursive: true });
+await mkdir(resolve(destination, "static/demos/psychologist"), { recursive: true });
+await writeFile(resolve(destination, "templates/demos/psychologist.html"), html);
+await writeFile(resolve(destination, "static/demos/psychologist/style.css"), css + '\n.contact .form{width:100%;display:grid;gap:18px;margin:0;padding:0;box-shadow:none}.contact .form-row{display:grid;gap:18px}.contact .field label{display:block}.contact textarea{width:100%;min-height:120px;margin-top:7px;padding:14px;border:1px solid #d9ded8;border-radius:9px;font:16px Arial}.contact .hp{display:none}.contact .btn{display:inline-flex;justify-content:center;border:0;border-radius:99px;background:#587064;color:#fff;padding:16px 27px;cursor:pointer;font:700 16px Arial}.contact .error{color:#a12626;font-size:14px}.contact .consent a{text-decoration:underline}.contact .form p{font-size:14px}\n');
+await copyFile("public/images/psychologist-landing-cover.webp", resolve(destination, "static/demos/psychologist/cover.webp"));
+await copyFile("public/favicon.svg", resolve(destination, "static/demos/psychologist/favicon.svg"));
+console.log("Portal demonstration exported with its native protected inquiry form.");

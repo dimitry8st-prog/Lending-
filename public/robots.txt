@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://psychologist-landing.ketwolsheb.chatgpt.site/sitemap.xml

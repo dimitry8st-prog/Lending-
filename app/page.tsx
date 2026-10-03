@@ -21,6 +21,8 @@ const faqs = [
 export default function Home() {
   return (
     <>
+      <aside className="demo-banner" aria-label="О демонстрации">Портфолио Степанова Д.А. · Анна Миронова — вымышленный специалист. <a href="https://st8dom.ru/cases/psychologist-landing/">О проекте на портале ДИС</a></aside>
+      <a className="skip-link" href="#top">К содержанию</a>
       <header className="header">
         <a className="brand" href="#top" aria-label="На главную">
           <span>АМ</span><strong>Анна Миронова<small>психолог-консультант</small></strong>
@@ -28,7 +30,7 @@ export default function Home() {
         <nav aria-label="Основная навигация">
           <a href="#about">Обо мне</a><a href="#work">С чем работаю</a><a href="#process">Как проходит</a>
         </nav>
-        <a className="button button-small" href="#contact">Записаться</a>
+        <a className="button button-small" href="#contact">Обсудить сайт</a>
       </header>
 
       <main id="top">
@@ -38,18 +40,15 @@ export default function Home() {
             <h1>Место, где можно быть собой и найти внутреннюю опору</h1>
             <p className="lead">Помогаю взрослым справляться с тревогой, сложностями в отношениях и периодами перемен — бережно, конфиденциально и без оценок.</p>
             <div className="hero-actions">
-              <a className="button" href="#contact">Записаться на консультацию</a>
+              <a className="button" href="#contact">Посмотреть пример записи</a>
               <a className="text-link" href="#process">Как проходит встреча <span>→</span></a>
             </div>
             <div className="trust-row"><span>✓ Конфиденциально</span><span>✓ Онлайн и очно</span><span>✓ 50 минут</span></div>
           </div>
-          <div className="portrait" role="img" aria-label="Демонстрационный портрет психолога Анны Мироновой">
-            <div className="sun" />
-            <div className="portrait-card">
-              <div className="face">А</div>
-              <blockquote>«Вам не обязательно проходить через трудное в одиночку»</blockquote>
-            </div>
-          </div>
+          <figure className="portrait">
+            <img src="/images/psychologist-landing-cover.webp" width="1672" height="941" alt="Кабинет психолога — иллюстрация демонстрационного проекта" fetchPriority="high" />
+            <figcaption>Демонстрация сайта частной практики</figcaption>
+          </figure>
         </section>
 
         <section className="intro" id="about">
@@ -69,7 +68,7 @@ export default function Home() {
         <section className="section" id="process">
           <div className="section-head narrow"><p className="eyebrow">Как всё устроено</p><h2>Понятный и бережный процесс</h2></div>
           <div className="steps">{steps.map(([n, title, text]) => <article key={n}><span>{n}</span><div><h3>{title}</h3><p>{text}</p></div></article>)}</div>
-          <div className="format"><div><small>Формат</small><b>Онлайн или очно в Москве</b></div><div><small>Продолжительность</small><b>50 минут</b></div><div><small>Стоимость</small><b>4 000 ₽</b></div><a className="button" href="#contact">Выбрать время</a></div>
+          <div className="format"><div><small>Формат</small><b>Онлайн или очно в Москве</b></div><div><small>Продолжительность</small><b>50 минут</b></div><div><small>Стоимость</small><b>4 000 ₽</b></div><a className="button" href="#contact">Обсудить такой сайт</a></div>
         </section>
 
         <section className="quote-section">
@@ -83,7 +82,7 @@ export default function Home() {
             <blockquote>«Я впервые смогла спокойно сказать “нет” и не чувствовать себя виноватой. Появилось ощущение, что на себя можно опереться».<cite>Мария, 34 года</cite></blockquote>
             <blockquote>«Пришёл с постоянной тревогой. Постепенно научился замечать её раньше и понимать, что именно мне сейчас нужно».<cite>Алексей, 39 лет</cite></blockquote>
           </div>
-          <p className="privacy">Имена и отдельные детали изменены для сохранения конфиденциальности.</p>
+          <p className="privacy">Вымышленные примеры отзывов для демонстрации оформления. Они не описывают результаты реальных клиентов.</p>
         </section>
 
         <section className="section faq">
@@ -92,18 +91,17 @@ export default function Home() {
         </section>
 
         <section className="contact" id="contact">
-          <div><p className="eyebrow">Первый шаг</p><h2>Запишитесь на консультацию</h2><p>Оставьте контакты — я напишу вам в течение рабочего дня, отвечу на вопросы и предложу свободное время.</p><div className="direct"><a href="tel:+79991234567">+7 (999) 123-45-67</a><a href="mailto:hello@annamironova.ru">hello@annamironova.ru</a></div></div>
-          <form>
-            <label>Ваше имя<input name="name" placeholder="Как к вам обращаться" required /></label>
-            <label>Телефон или Telegram<input name="contact" placeholder="+7 999 000-00-00" required /></label>
-            <label>Удобный формат<select name="format"><option>Онлайн</option><option>Очно в Москве</option><option>Пока не знаю</option></select></label>
-            <label className="consent"><input type="checkbox" required /> <span>Согласен(а) с обработкой персональных данных</span></label>
-            <button className="button" type="submit">Отправить заявку</button>
-            <small>Демонстрационная форма. Подключение отправки выполняется при переносе на WordPress.</small>
-          </form>
+          <div><p className="eyebrow">Сайт для вашей практики</p><h2>Нужен такой лендинг?</h2><p>Этот проект показывает структуру сайта психолога. Имя, опыт, цены и отзывы здесь демонстрационные.</p><p>Для вашей практики заменим материалы, подключим приём заявок и опубликуем сайт на вашем домене.</p></div>
+          <div className="inquiry-panel" data-inquiry-panel="true">
+            <h3>Обсудить адаптацию</h3>
+            <p>Опишите задачу через защищённую форму портала ДИС. Обращение сохранится в панели сайта.</p>
+            <a className="button" href="https://st8dom.ru/contact/?topic=website&amp;project=psychologist-landing">Открыть форму заявки</a>
+            <p className="contact-note">Заявка на разработку сайта. Запись к психологу в этой демонстрации не ведётся.</p>
+            <a className="text-link" href="https://st8dom.ru/privacy/">Политика конфиденциальности</a>
+          </div>
         </section>
       </main>
-      <footer><div className="brand"><span>АМ</span><strong>Анна Миронова<small>психолог-консультант</small></strong></div><p>© 2026 · Демонстрационный сайт</p><a href="#top">Наверх ↑</a></footer>
+      <footer><div className="brand"><span>АМ</span><strong>Анна Миронова<small>психолог-консультант</small></strong></div><p>© 2026 · Демонстрационный сайт · Степанов Д.А.</p><a href="#top">Наверх ↑</a></footer>
     </>
   );
 }
